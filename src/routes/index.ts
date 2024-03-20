@@ -3,20 +3,17 @@
  * Redirections to Routers
  */
 
-import express, { type Request, type Response, type Express } from 'express'
+import express, { type Request, type Response } from 'express'
 import helloRouter from './HelloRouter'
-import { LogInfo } from '@/utils/logger'
+import { LogInfo } from '../utils/logger'
 
-// server instance
+// * server instance
+const server = express()
 
-const server: Express = express()
-
-// Router Instance
-
+// * Router Instance
 const rootRouter = express.Router()
 
-// Activate for requests to http://localhost:8000/api
-
+// * Activate for requests to http://localhost:8000/api
 // GET -> http://localhost:8000/api/
 
 rootRouter.get('/', (req: Request, res: Response) => {
@@ -30,3 +27,5 @@ rootRouter.get('/', (req: Request, res: Response) => {
 server.use('/', rootRouter) // http://localhost:8000/api --> rootRouter
 server.use('/hello', helloRouter) // http://localhost:8000/api/hello --> helloRouter
 // Add more router to the app
+
+export default server

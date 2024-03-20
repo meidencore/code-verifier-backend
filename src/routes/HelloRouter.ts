@@ -1,13 +1,12 @@
 import express, { type Request, type Response } from 'express'
-import { HelloController } from '@/controller/HelloController'
-import { LogInfo } from '@/utils/logger'
+import { HelloController } from '../controller/HelloController'
+import { LogInfo } from '../utils/logger'
+import { type BasicResponse } from '../controller/types'
 
 // Router from express
-
 const helloRouter = express.Router()
 
 // http://localhost:8000/api/hello/
-
 helloRouter.route('/')
   // GET ->
   .get(async (req: Request, res: Response) => {
@@ -17,7 +16,7 @@ helloRouter.route('/')
     // Instace the controller to execute
     const controller: HelloController = new HelloController()
     // Obtain Response
-    const response = await controller.getMessage(name)
+    const response: BasicResponse = await controller.getMessage(name)
     // Send to the client the response
     return res.send(response)
   })

@@ -1,16 +1,20 @@
-import express, { type Express } from 'express'
 import dotenv from 'dotenv'
+import server from './src/server'
+import { LogError, LogSucess } from './src/utils/logger'
 
-// configuration the .env file
+// * configuration the .env file
 dotenv.config()
 
-// Create Express APP
-
-const app: Express = express()
 const port: string | number = process.env.PORT ?? 8000
 
-// Execute APP and listen request to PORT
+// * Execute SERVER
+server.listen(port, () => {
+  LogSucess(`[SERVER ON]: Running on http://localhost:${port}/api`)
+})
 
-app.listen(port, () => {
-  console.log(`Express Server runing at: http://localhost:${port}`)
+// * Control SERVER ERROR
+server.on('error', (error) => {
+  const errorMessage: string = error.toString()
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  LogError(`[SERVER ERROR]: ${errorMessage}`)
 })
