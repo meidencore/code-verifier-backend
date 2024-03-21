@@ -19,6 +19,9 @@ server.use(
   router
 )
 
+// Static Server
+server.use(express.static('public'))
+
 // TODO mongoose connection
 
 // * Security Config
