@@ -6,6 +6,7 @@
 import express, { type Request, type Response } from 'express'
 import helloRouter from './HelloRouter'
 import { LogInfo } from '../utils/logger'
+import usersRouter from './UserRouter'
 
 // * server instance
 const server = express()
@@ -26,6 +27,7 @@ rootRouter.get('/', (req: Request, res: Response) => {
 
 server.use('/', rootRouter) // http://localhost:8000/api --> rootRouter
 server.use('/hello', helloRouter) // http://localhost:8000/api/hello --> helloRouter
+server.use('/users', usersRouter) // http://localhost:8000/api/users --> usersRouter
 // Add more router to the app
 
 export default server
