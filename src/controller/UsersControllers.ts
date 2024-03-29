@@ -1,10 +1,9 @@
-import { Delete, Get, Post, Put, Query, Route, Tags } from 'tsoa'
+import { Delete, Get, Put, Query, Route, Tags } from 'tsoa'
 import { type IUsersController } from './interfaces'
 import { LogSucess, LogWarning } from '../utils/logger'
 
 // ORM - Users Collection
-import { getAllUsers, getUserByID, deleteUserById, createUser, updateUserById } from '../domain/orm/User.orm'
-import { query } from 'express'
+import { getAllUsers, getUserByID, deleteUserById, updateUserById } from '../domain/orm/User.orm'
 
 @Route('/api/users')
 @Tags('UserController')
@@ -42,6 +41,7 @@ export class UserController implements IUsersController {
       LogSucess(`[api/users] Deleting User By ID: ${id}`)
       await deleteUserById(id).then((r) => {
         response = {
+          status: 200,
           message: `User with id: ${id} deleted successfully`
         }
       }
@@ -49,28 +49,10 @@ export class UserController implements IUsersController {
     } else {
       LogWarning('[/api/users] Delete User Request WITHOUT ID')
       response = {
+        status: 400,
         message: 'Please, provide an ID to remove from database'
       }
     }
-
-    return response
-  }
-
-  /**
-   * Endpint to create an users in the collection "Users" of the DB
-   * @param {any} user user info
-   * @returns message informing if creation was correct
-   */
-  @Post('/')
-  public async createUser (user: any): Promise<any> {
-    let response: any = ''
-
-    await createUser(user).then((r) => {
-      LogSucess(`[api/users] Creating User: ${user}`)
-      response = {
-        message: `Created user successfully: ${user.name}`
-      }
-    })
 
     return response
   }
@@ -89,6 +71,7 @@ export class UserController implements IUsersController {
       LogSucess(`[api/users] Updating User By ID: ${id}`)
       await updateUserById(id, user).then((r) => {
         response = {
+          status: 200,
           message: `User with id: ${id} updated successfully`
         }
       }
@@ -96,6 +79,7 @@ export class UserController implements IUsersController {
     } else {
       LogWarning('[/api/users] Update User Request WITHOUT ID')
       response = {
+        status: 400,
         message: 'Please, provide an ID to update an existing user'
       }
     }

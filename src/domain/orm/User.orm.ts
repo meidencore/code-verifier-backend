@@ -1,8 +1,6 @@
 import { userEntity } from '../entities/User.entity'
 import { LogError } from '../../utils/logger'
 
-// CRUD
-
 /**
  * Method to obtain all Users from Collections "Users" in MongoDB
  */
@@ -11,7 +9,7 @@ export const getAllUsers = async (): Promise<any[] | undefined> => {
     const userModel = userEntity()
 
     // Search all users
-    return await userModel.find()
+    return await userModel.find({}, { password: 0 })
   } catch (error: any) {
     LogError(`[ORM ERROR]: Getting all users: ${error}`)
   }
@@ -20,7 +18,7 @@ export const getAllUsers = async (): Promise<any[] | undefined> => {
 export const getUserByID = async (id: string): Promise<any | undefined> => {
   try {
     const userModel = userEntity()
-    return await userModel.findById(id)
+    return await userModel.findById(id, { password: 0 })
   } catch (error: any) {
     LogError(`[ORM ERROR]: Getting user by ID: ${error}`)
   }
@@ -55,6 +53,3 @@ export const updateUserById = async (id: string, user: any): Promise<any | undef
     LogError(`[ORM ERROR]: Updating User: ${error}`)
   }
 }
-
-// TODO
-// -> Get User by email
