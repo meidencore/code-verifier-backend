@@ -1,6 +1,7 @@
 import express, { type Request, type Response } from 'express'
 import { UserController } from '../controller/UsersControllers'
 import { LogInfo } from '../utils/logger'
+import { verifyToken } from '../../src/middlewares/verifyToken.middlewares'
 
 // Router from express
 const usersRouter = express.Router()
@@ -8,7 +9,7 @@ const usersRouter = express.Router()
 // http://localhost:8000/api/user/ or http://localhost:8000/api/users?id=6601bc101c56890458188944
 usersRouter.route('/')
   // GET ->
-  .get(async (req: Request, res: Response) => {
+  .get(verifyToken, async (req: Request, res: Response) => {
     // Obtain query param
     const id: any = req?.query?.id
     LogInfo(`Query param: ${id}`)
@@ -20,7 +21,7 @@ usersRouter.route('/')
     return res.status(200).send(response)
   })
   // DELETE ->
-  .delete(async (req: Request, res: Response) => {
+  .delete(verifyToken, async (req: Request, res: Response) => {
     // Obtain query param
     const id: any = req?.query?.id
     LogInfo(`Query param: ${id}`)
@@ -32,7 +33,7 @@ usersRouter.route('/')
     return res.status(response.status).send(response)
   })
   // PUT ->
-  .put(async (req: Request, res: Response) => {
+  .put(verifyToken, async (req: Request, res: Response) => {
     // Obtain query param
     const id: any = req?.query?.id
     const name: any = req?.query?.name

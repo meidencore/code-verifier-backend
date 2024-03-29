@@ -1,6 +1,5 @@
-import express, { query, type Request, type Response } from 'express'
+import express, { type Request, type Response } from 'express'
 import { AuthController } from '../controller/AuthController'
-import { LogInfo } from '../utils/logger'
 import { type IUser } from '../domain/interfaces/IUser.interface'
 
 // Bcrypt for passwords
