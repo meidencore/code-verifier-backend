@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import mongoose from 'mongoose'
 import { type IUser } from '../interfaces/IUser.interface'
 

@@ -14,7 +14,7 @@ export class UserController implements IUsersController {
    * @returns All users or user found by id
    */
   @Get('/')
-  public async getUsers (@Query()id?: string): Promise<any> {
+  public async getUsers (@Query()page: number, @Query()limit: number, @Query()id?: string): Promise<any> {
     let response: any = ''
 
     if (id) {
@@ -22,7 +22,7 @@ export class UserController implements IUsersController {
       response = await getUserByID(id)
     } else {
       LogSucess('[/api/users] Get All Users Request')
-      response = await getAllUsers()
+      response = await getAllUsers(page, limit)
     }
 
     return response

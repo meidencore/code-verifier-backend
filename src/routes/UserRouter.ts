@@ -11,12 +11,14 @@ usersRouter.route('/')
   // GET ->
   .get(verifyToken, async (req: Request, res: Response) => {
     // Obtain query param
+    const page: any = req?.query?.page ?? 1
+    const limit: any = req?.query?.limit ?? 10
     const id: any = req?.query?.id
     LogInfo(`Query param: ${id}`)
     // Instance the controller to execute
     const controller: UserController = new UserController()
     // Obtain Response
-    const response = await controller.getUsers(id)
+    const response = await controller.getUsers(page, limit, id)
     // Send to the client the response
     return res.status(200).send(response)
   })
