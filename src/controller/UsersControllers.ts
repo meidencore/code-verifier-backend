@@ -1,9 +1,9 @@
-import { Delete, Get, Put, Query, Route, Tags } from 'tsoa'
+import { Body, Delete, Get, Put, Query, Route, Tags } from 'tsoa'
 import { type IUsersController } from './interfaces'
-import { LogSucess, LogWarning } from '../utils/logger'
+import logger from '../utils/logger'
 
 // ORM - Users Collection
-import { getAllUsers, getUserByID, deleteUserById, updateUserById } from '../domain/orm/User.orm'
+import { getAllUsers, getUserByID, deleteUserById, updateUserById, getKatasFromUser } from '../domain/orm/User.orm'
 
 @Route('/api/users')
 @Tags('UserController')
@@ -18,10 +18,10 @@ export class UserController implements IUsersController {
     let response: any = ''
 
     if (id) {
-      LogSucess(`[api/users] Get User By ID: ${id}`)
+      logger.LogSuccess(`[api/users] Get User By ID: ${id}`)
       response = await getUserByID(id)
     } else {
-      LogSucess('[/api/users] Get All Users Request')
+      logger.LogSuccess('[/api/users] Get All Users Request')
       response = await getAllUsers(page, limit)
     }
 
@@ -38,7 +38,7 @@ export class UserController implements IUsersController {
     let response: any = ''
 
     if (id) {
-      LogSucess(`[api/users] Deleting User By ID: ${id}`)
+      logger.LogSuccess(`[api/users] Deleting User By ID: ${id}`)
       await deleteUserById(id).then((r) => {
         response = {
           status: 200,
@@ -47,7 +47,7 @@ export class UserController implements IUsersController {
       }
       )
     } else {
-      LogWarning('[/api/users] Delete User Request WITHOUT ID')
+      logger.LogWarn('[/api/users] Delete User Request WITHOUT ID')
       response = {
         status: 400,
         message: 'Please, provide an ID to remove from database'
@@ -64,11 +64,11 @@ export class UserController implements IUsersController {
    * @returns message informing if the updating was correct
    */
   @Put('/')
-  public async updateUser (id: string, user: any): Promise<any> {
+  public async updateUser (@Query()id: string, @Body()user: any): Promise<any> {
     let response: any = ''
 
     if (id) {
-      LogSucess(`[api/users] Updating User By ID: ${id}`)
+      logger.LogSuccess(`[api/users] Updating User By ID: ${id}`)
       await updateUserById(id, user).then((r) => {
         response = {
           status: 200,
@@ -77,12 +77,22 @@ export class UserController implements IUsersController {
       }
       )
     } else {
-      LogWarning('[/api/users] Update User Request WITHOUT ID')
+      logger.LogWarn('[/api/users] Update User Request WITHOUT ID')
       response = {
         status: 400,
         message: 'Please, provide an ID to update an existing user'
       }
     }
+
+    return response
+  }
+
+  @Get('/katas')
+  public async getKatas (@Query()page: number, @Query()limit: number, @Query()id: string): Promise<any> {
+    let response: any = ''
+
+    logger.LogSuccess('[api/users/katas] Get User\'s katas')
+    response = await getKatasFromUser(page, limit, id)
 
     return response
   }

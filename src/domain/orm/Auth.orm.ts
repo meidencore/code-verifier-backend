@@ -1,4 +1,4 @@
-import { LogError } from '../../utils/logger'
+import logger from '../../utils/logger'
 import { type IUser } from '../interfaces/IUser.interface'
 import { userEntity } from '../entities/User.entity'
 import { type IAuth } from '../interfaces/IAuth.interface'
@@ -28,7 +28,7 @@ export const registerUser = async (user: IUser): Promise<any | undefined> => {
     // Create / insert new User
     return await userModel.create(user)
   } catch (error: any) {
-    LogError(`[ORM ERROR]: Registering User: ${error}`)
+    logger.LogError(`[ORM ERROR]: Registering User: ${error}`)
     // Duplicated email Error
     throw new Error(`[ORM ERROR]: ${error}`)
   }
@@ -51,7 +51,7 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
 
     // Check if password is valid
     if (!validPassword) {
-      LogError('[ORM ERROR]: Authentication Error, User not found')
+      logger.LogError('[ORM ERROR]: Authentication Error, User not found')
       throw new Error('[ORM ERROR]: Authentication Error, User not found')
     }
 
@@ -63,11 +63,11 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
         expiresIn: '2h'
       })
     } else {
-      LogError('[ORM ERROR]: JWT generation Error, ENV variable does not exist')
+      logger.LogError('[ORM ERROR]: JWT generation Error, ENV variable does not exist')
       throw new Error('[ORM ERROR]: JWT generation Error, ENV variable does not exist')
     }
   }).catch((error) => {
-    LogError('[ORM ERROR]: Authentication Error, User not found')
+    logger.LogError('[ORM ERROR]: Authentication Error, User not found')
     throw new Error(`[ORM ERROR]: Authentication Error, User not found ${error}`)
   })
 

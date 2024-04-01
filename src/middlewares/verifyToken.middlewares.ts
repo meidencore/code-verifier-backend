@@ -30,9 +30,6 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): Re
   } else {
     // verify the token obtained
     jwt.verify(token, secret, (err: any, decoded: any) => {
-      console.log(err instanceof jwt.TokenExpiredError)
-      console.log(err instanceof jwt.JsonWebTokenError)
-
       // Check for expired first cause err are always an instance of JsonWebTokenError and only expired are instance of TokenExpiredError
       if (err instanceof jwt.TokenExpiredError) {
         // Response if the token has expired

@@ -12,7 +12,7 @@ import helmet from 'helmet'
 // * root Router
 import router from '../routes'
 import mongoose from 'mongoose'
-import { LogError } from '../utils/logger'
+import logger from '../utils/logger'
 
 // * Create Express server
 const server: Express = express()
@@ -43,7 +43,7 @@ server.use(express.static('public'))
 try {
   void mongoose.connect('mongodb://0.0.0.0:27017/codeverification')
 } catch (error: any) {
-  LogError(`[MONGOOSE ERROR] Error when try to connecto to the DB: ${error}`)
+  logger.LogError(`[MONGOOSE ERROR] Error when try to connecto to the DB: ${error}`)
 }
 
 // * Security Config

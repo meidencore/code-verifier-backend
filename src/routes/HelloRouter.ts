@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from 'express'
 import { HelloController } from '../controller/HelloController'
-import { LogInfo } from '../utils/logger'
+import logger from '../utils/logger'
 import { type BasicResponse } from '../controller/types'
 
 // Router from express
@@ -12,7 +12,7 @@ helloRouter.route('/')
   .get(async (req: Request, res: Response) => {
     // Obtain query param
     const name: any = req?.query?.name // TODO Type name var
-    LogInfo(`Query param: ${name}`)
+    logger.LogInfo(`Query param: ${name}`)
     // Instace the controller to execute
     const controller: HelloController = new HelloController()
     // Obtain Response
