@@ -42,7 +42,7 @@ authRouter.route('/register')
       const response: any = await controller.registerUser(newUser)
 
       // Send to the client the response
-      return res.status(200).send(response)
+      return res.status(201).send(response)
     } else {
       // Send to the client the response
       return res.status(400).send({
