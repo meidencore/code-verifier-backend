@@ -1,4 +1,4 @@
-import { Get, Post, Query, Route, Tags } from 'tsoa'
+import { Body, Get, Post, Query, Route, Tags } from 'tsoa'
 import { type IAuthController } from './interfaces'
 import logger from '../utils/logger'
 import { IUser } from '../domain/interfaces/IUser.interface'
@@ -18,7 +18,7 @@ export class AuthController implements IAuthController {
    * @returns message informing if creation was correct
    */
   @Post('/register')
-  public async registerUser (user: IUser): Promise<any> {
+  public async registerUser (@Body()user: IUser): Promise<any> {
     let response: BasicResponse | ErrorResponse | undefined
 
     if (user) {
@@ -47,7 +47,7 @@ export class AuthController implements IAuthController {
   }
 
   @Post('/login')
-  public async loginUser (authCredentials: IAuth): Promise<any> {
+  public async loginUser (@Body()authCredentials: IAuth): Promise<any> {
     let response: AuthResponse | ErrorResponse | undefined
     if (authCredentials) {
       logger.LogSuccess('[api/auth/login] Login User')
@@ -86,7 +86,7 @@ export class AuthController implements IAuthController {
   }
 
   @Post('/logout')
-  public async logoutUser (auth: any): Promise<any> {
+  public async logoutUser (@Body()auth: any): Promise<any> {
     // TODO close session of user
     logger.LogSuccess('success')
   }

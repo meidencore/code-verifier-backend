@@ -5,7 +5,7 @@ import logger from './src/utils/logger'
 // * configuration the .env file
 dotenv.config()
 
-const port: string | number = process.env.PORT ?? 8000
+const port: string | number = process.env.PORT ?? 1234
 
 // * Execute SERVER
 server.listen(port, () => {
