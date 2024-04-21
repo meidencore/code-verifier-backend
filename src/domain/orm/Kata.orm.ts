@@ -34,7 +34,7 @@ export const getAllKatas = async (page: number, limit: number): Promise<KataResp
 export const getKataByID = async (id: string): Promise<any | undefined> => {
   try {
     const kataModel = kataEntity()
-    return await kataModel.findById(id)
+    return await kataModel.findById(id, { __v: 0 })
   } catch (error: any) {
     logger.LogError(`[ORM ERROR]: Getting kata by ID: ${error}`)
   }
